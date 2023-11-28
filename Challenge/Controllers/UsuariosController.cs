@@ -6,8 +6,9 @@ namespace Challenge.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        // Instancio el objeto Usuario de su Clase.
+        // Instancio los objetos
         Usuario usuario = new Usuario();
+        Encriptacion encriptacion = new Encriptacion();
 
         // Creo la lista a utilizar para guardar en memoria los usuarios
         private static readonly List<Usuario> _usuarios = new List<Usuario>();
@@ -19,7 +20,7 @@ namespace Challenge.Controllers
             usuario.Id = Guid.NewGuid();
             usuario.Username = username;
             usuario.Password = password;
-            usuario.PasswordEncriptada = password + " encriptado";
+            usuario.PasswordEncriptada = encriptacion.Encriptar(password);
             _usuarios.Add(usuario);
 
             return Ok(usuario);

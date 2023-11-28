@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Encriptacion\Encriptacion.csproj" />
     <ProjectReference Include="..\Usuario\Usuario.csproj" />
   </ItemGroup>
 
