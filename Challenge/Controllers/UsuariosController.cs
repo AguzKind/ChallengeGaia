@@ -47,7 +47,7 @@ namespace Challenge.Controllers
                 usuario = _usuarios.Where(x => x.Username == IdOrUsername).FirstOrDefault();
                 if (usuario == null)
                 {
-                    return NotFound("Usuario no encontrado");
+                    return NotFound("Id o Usuario no encontrado");
                 }
                
             } 
