@@ -4,4 +4,5 @@
     public string Username { get; set; }
     public string Password { get; set; }
     public string PasswordEncriptada { get; set; }
+    public string PasswordDesencriptada { get; set; }
 }

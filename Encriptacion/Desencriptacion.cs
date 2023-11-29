@@ -1,16 +1,17 @@
-﻿public class Encriptacion
+﻿public class Desencriptacion
 {
-    public string Encriptar(string password)
+    // Basicamente, son los mismos metodos que en la encriptacion, pero cada uno a la inversa.
+    public string Desencriptar(string password)
     {
+        password = AlgoritmoRecursividadInv(password.ToCharArray(), 0);
+        password = CambiarVocalesInv(password);
         password = Reverso(password);
-        password = CambiarVocales(password);
-        password = new string (AlgoritmoRecursividad(password.ToCharArray(), 2, 0));
 
-        // Devuelve la password encriptada al endpoint.
+        // Devuelve la password desencriptada al endpoint.
         return password;
     }
-    // Array con las vocales para hacer la comparacion
-    private static char[] vocales = { 'a', 'e', 'i', 'o', 'u' };
+
+    private static char[] vocales = { 'u', 'o', 'i', 'e', 'a' };
 
     public string Reverso(string texto)
     {
@@ -19,6 +20,44 @@
         texto = new string(texto.Reverse().ToArray());
         return texto;
     }
+    static string AlgoritmoRecursividadInv(char[] password, int indice)
+    {
+        // Al final del array, se devuelve el mismo pero como string.
+        if (indice >= password.Length)
+        {
+            return new string(password);
+        }
+
+        // Verifco si es el caracter '$', si es lo elimino llamando la funcion EliminarCaracter.
+        if (password[indice] == '$')
+        {
+            password = EliminarCaracter(password, indice);
+        }
+
+        // Llamada recursiva -> avanza al siguiente indice.
+        return AlgoritmoRecursividadInv(password, indice + 1);
+    }
+
+    public static char[] EliminarCaracter(char[] array, int indice)
+    {
+        // Creo un array sin el elemento en la posicion actual.
+        char[] nuevoArray = new char[array.Length - 1];
+
+        // Copio los elementos antes de la posicion actual.
+        for (int i = 0; i < indice; i++)
+        {
+            nuevoArray[i] = array[i];
+        }
+
+        // Copio los elementos despues de la posicion actual.
+        for (int i = indice + 1; i < array.Length; i++)
+        {
+            nuevoArray[i - 1] = array[i];
+        }
+
+        // Devuelvo el array
+        return nuevoArray;
+    }
 
     // Funcion que recibe un caracter, y lo compara con los elementos del array vocales, si lo encuentra devuelve el
     // indice, sino devuelve -1 indicando que no se encontró.
@@ -26,9 +65,7 @@
     {
         return Array.IndexOf(vocales, char.ToLower(c)) != -1;
     }
-
-
-    public string CambiarVocales(string password)
+    public string CambiarVocalesInv(string password)
     {
         // Paso la cadena de texto password a un array.
         char[] arrayPassword = password.ToCharArray();
@@ -51,7 +88,7 @@
                 // Encuentra la posición de la vocal en el array.
                 int posicion = Array.IndexOf(vocales, vocalMinuscula);
 
-                // Cambia la vocal a la siguiente en la lista, o a 'a' si es 'u'.
+                // Cambia la vocal a la siguiente en la lista, o a 'u' si es 'a'.
                 char nuevaVocal = (posicion == 4) ? vocales[0] : vocales[posicion + 1];
 
                 // Ya cambiada la vocal, la vuelvo mayuscula si asi lo fue.
@@ -64,36 +101,5 @@
 
         // Devuelve la password como un string.
         return new string(arrayPassword);
-    }
-
-    public static char[] AlgoritmoRecursividad(char[] password, int posicion, int indice)
-    {
-        // Cuando se alcanza el final del texto original ->
-        if (indice == password.Length)
-        {
-            // Se crea un nuevo array con espacio adicional para los '$'.
-            char[] nuevoArray = new char[password.Length + (password.Length / 2)];
-
-            // Copio el array original (password) al nuevo array con '$' cada 2 posiciones.
-            for (int i = 0, j = 0; i < password.Length; i++, j++)
-            {
-                nuevoArray[j] = password[i];
-
-                // Agrega '$' cada dos posiciones.
-                if ((i + 1) % posicion == 0)
-                {
-                    nuevoArray[++j] = '$';
-                }
-            }
-
-            return nuevoArray;
-        }
-        else
-        {
-            // Algoritmo recursivo -> Copia los elementos y avanza al siguiente índice.
-            char[] resultadoParcial = AlgoritmoRecursividad(password, posicion, indice + 1);
-
-            return resultadoParcial;
-        }
     }
 }
