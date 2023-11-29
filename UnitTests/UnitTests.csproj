@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Challenge\Challenge.csproj" />
     <ProjectReference Include="..\Encriptacion\Encriptacion.csproj" />
   </ItemGroup>
 
