@@ -20,7 +20,6 @@ namespace Challenge.Controllers
         {
             usuario.Id = Guid.NewGuid();
             usuario.Username = username;
-            usuario.Password = password;
             password = encriptacion.Encriptar(password);
             usuario.PasswordEncriptada = password;
             usuario.PasswordDesencriptada = desencriptacion.Desencriptar(password);
